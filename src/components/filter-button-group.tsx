@@ -1,38 +1,75 @@
 import { styles } from "@/src/styles";
 import { Text } from "@react-navigation/elements";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+
 import { Container } from "./ui/container";
 
 const styleFilter = StyleSheet.create({
   filterButton: {
-    width: "100%",
     gap: 6,
+  },
+
+  scrollContainer: {
+    paddingHorizontal: 30,
+    alignItems: "center",
+    gap: 8,
   },
 });
 
 export function FilterButtonGroup() {
   return (
-    <Container
-      flexDirection="column"
-      justifyContent="space-between"
-      marginVertical={20}
-      style={styleFilter.filterButton}
-    >
-      <TouchableOpacity
-        style={[styles.filterButton, styles.filterButtonActive]}
+    <Container marginVertical={20} style={styleFilter.filterButton}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styleFilter.scrollContainer}
       >
-        <Text style={styles.buttonText}>Todos (52)</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.filterButton, styles.filterButtonInactive]}
-      >
-        <Text style={styles.buttonText}>Pendentes (37)</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.filterButton, styles.filterButtonInactive]}
-      >
-        <Text style={styles.buttonText}>Concluídos (15)</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.filterButton,
+            styles.filterButtonActive,
+            { width: "auto" },
+          ]}
+        >
+          <Text
+            style={styles.buttonText}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
+            Todos (52)
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.filterButton,
+            styles.filterButtonInactive,
+            { width: "auto" },
+          ]}
+        >
+          <Text
+            style={styles.buttonText}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
+            Pendentes (37)
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.filterButton,
+            styles.filterButtonInactive,
+            { width: "auto" },
+          ]}
+        >
+          <Text
+            style={styles.buttonText}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
+            Concluídos (15)
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
     </Container>
   );
 }

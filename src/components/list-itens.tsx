@@ -1,3 +1,4 @@
+import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet, Text, View } from "react-native";
 
 const styles = StyleSheet.create({
@@ -65,25 +66,35 @@ export function ListItens({
   mark,
   amount,
   price,
+  status,
 }: {
   title: string;
   mark: string;
   amount: number;
   price: number | string;
+  status: string;
 }) {
   return (
     <View style={styles.itemCard}>
+      <View style={styles.qtyBadge}>
+        <Text style={styles.qtyText}>{amount}</Text>
+      </View>
+
       <View style={styles.infoColumn}>
         <Text style={styles.productName}>{title}</Text>
         <Text style={styles.brandName}>{mark}</Text>
       </View>
 
-      <View style={styles.qtyBadge}>
-        <Text style={styles.qtyText}>{amount}</Text>
-      </View>
-
       <View style={styles.priceContainer}>
         <Text style={styles.priceText}>{price}</Text>
+      </View>
+
+      <View style={styles.dragIcon}>
+        {status === "completed" ? (
+          <Feather name="check-circle" size={20} color="#4cd964" />
+        ) : (
+          <MaterialIcons name="radio-button-unchecked" size={20} color="red" />
+        )}
       </View>
     </View>
   );

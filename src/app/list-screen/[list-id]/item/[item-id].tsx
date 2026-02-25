@@ -1,6 +1,7 @@
 import { Container } from "@/src/components/ui/container";
 import { groceryListRepository } from "@/src/repositories/grocery-list";
 import { styles } from "@/src/styles";
+import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import {
@@ -29,7 +30,7 @@ const filterItens = (arry: any, id: number) => {
   return arry.filter((item: any) => item.id === id);
 };
 
-export default function ItensScreen() {
+export default function ItensScreen(itensList) {
   const { "list-id": listId, "item-id": itemId } = useLocalSearchParams<{
     "list-id": string;
     "item-id": string;
@@ -43,13 +44,46 @@ export default function ItensScreen() {
   const [amount, onChangeAmount] = useState("");
   const [mark, onChangeMark] = useState("");
 
+  const [isCheck, setCheck] = useState(false);
+
+  const toggleCheck = () => {
+    setCheck(!isCheck);
+  };
+
+  let checkState = isCheck ? (
+    <Feather name="check-circle" size={24} color="#4cd964" />
+  ) : (
+    <MaterialIcons name="radio-button-unchecked" size={24} color="red" />
+  );
+
   return (
     <Container flexDirection="column" style={stylesEdit.container}>
-      <Text style={styles.headerTitleText}>
-        {itemId === undefined || itemId === "0"
-          ? "Adicione um Item"
-          : "Edite esse Item"}
-      </Text>
+      <View
+        style={{
+          width: "100%",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Text style={styles.headerTitleText}>
+          {itemId === undefined || itemId === "0"
+            ? "Adicione um Item"
+            : "Edite esse Item"}
+        </Text>
+        <View
+          style={[
+            styles.inputGroup,
+            { alignItems: "center", justifyContent: "center" },
+          ]}
+        >
+          <Text style={styles.label}>Status</Text>
+          <TouchableOpacity onPress={toggleCheck}>
+            {/* <Text style={styles.textInput}>{checkState}</Text> */}
+            {checkState}
+          </TouchableOpacity>
+        </View>
+      </View>
 
       <FlatList
         data={itemFilter}

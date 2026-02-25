@@ -13,6 +13,7 @@ export const groceryListMock = [
         price: 13.75,
         amount: 5,
         mark: "palmoliva",
+        status: "pending",
       },
       {
         id: 2,
@@ -21,6 +22,7 @@ export const groceryListMock = [
         price: 18.0,
         amount: 1,
         mark: "Hedenshozen",
+        status: "pending",
       },
       {
         id: 3,
@@ -29,6 +31,7 @@ export const groceryListMock = [
         price: 14.0,
         amount: 2,
         mark: "delicia",
+        status: "pending",
       },
       {
         id: 4,
@@ -37,6 +40,7 @@ export const groceryListMock = [
         price: 320.0,
         amount: 1,
         mark: "Pirelli",
+        status: "completed",
       },
       {
         id: 5,
@@ -45,6 +49,7 @@ export const groceryListMock = [
         price: 32.0,
         amount: 1,
         mark: "Urso",
+        status: "completed",
       },
       {
         id: 6,
@@ -53,6 +58,7 @@ export const groceryListMock = [
         price: 9.82,
         amount: 1,
         mark: "sorriso",
+        status: "pending",
       },
       {
         id: 7,
@@ -61,6 +67,7 @@ export const groceryListMock = [
         price: 19.82,
         amount: 1,
         mark: "sorriso",
+        status: "pending",
       },
       {
         id: 8,
@@ -69,6 +76,7 @@ export const groceryListMock = [
         price: 19.82,
         amount: 1,
         mark: "sorriso",
+        status: "completed",
       },
     ],
   },
@@ -86,6 +94,7 @@ export const groceryListMock = [
         price: 2.75,
         amount: 5,
         mark: "palmoliva",
+        status: "pending",
       },
     ],
   },

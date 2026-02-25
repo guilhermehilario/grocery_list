@@ -7,6 +7,8 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { router, useLocalSearchParams } from "expo-router";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+
 import { FilterButtonGroup } from "@/src/components/filter-button-group";
 import { ListItens } from "@/src/components/list-itens";
 import { Container } from "@/src/components/ui/container";
@@ -44,8 +46,12 @@ export default function ListScreen() {
       data={itensList}
       ItemSeparatorComponent={() => <View style={styles.separator}></View>}
       ListHeaderComponent={
-        <View>
-          <Container flexDirection="column" justifyContent="space-between">
+        <View style={{ width: "100%" }}>
+          <Container
+            flexDirection="column"
+            justifyContent="space-between"
+            style={{ width: "100%" }}
+          >
             <View style={styles.headerTitle}>
               <Text style={styles.headerTitleText}>
                 {toUperCase(lista?.title)}
@@ -121,6 +127,7 @@ export default function ListScreen() {
             mark={toUperCase(item.mark)}
             amount={item.amount}
             price={convertCurrency(item.price)}
+            status={item.status}
           />
         </TouchableOpacity>
       )}

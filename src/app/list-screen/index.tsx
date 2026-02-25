@@ -23,28 +23,6 @@ const stylesList = StyleSheet.create({
     gap: 5,
   },
 
-  headerSession: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 4,
-  },
-
-  headerTitle: {
-    fontSize: 25,
-    color: "#5d3fd3",
-    fontWeight: "bold",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-
-  title: {
-    color: "#156363ff",
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-
   content: {
     alignItems: "center",
     width: "100%",
