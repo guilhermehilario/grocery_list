@@ -17,7 +17,15 @@ const styleFilter = StyleSheet.create({
   },
 });
 
-export function FilterButtonGroup() {
+export function FilterButtonGroup({
+  itensAmount,
+  pendingAmount,
+  completedAmount,
+}: {
+  itensAmount: number;
+  pendingAmount: number;
+  completedAmount: number;
+}) {
   return (
     <Container marginVertical={20} style={styleFilter.filterButton}>
       <ScrollView
@@ -32,7 +40,7 @@ export function FilterButtonGroup() {
             { width: "auto" },
           ]}
         >
-          <Text style={styles.buttonText}>Todos (52)</Text>
+          <Text style={styles.buttonText}>Todos ({itensAmount})</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
@@ -41,7 +49,7 @@ export function FilterButtonGroup() {
             { width: "auto" },
           ]}
         >
-          <Text style={styles.buttonText}>Pendentes (37)</Text>
+          <Text style={styles.buttonText}>Pendentes ({pendingAmount})</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
@@ -50,7 +58,7 @@ export function FilterButtonGroup() {
             { width: "auto" },
           ]}
         >
-          <Text style={styles.buttonText}>Concluídos (15)</Text>
+          <Text style={styles.buttonText}>Concluídos ({completedAmount})</Text>
         </TouchableOpacity>
       </ScrollView>
     </Container>

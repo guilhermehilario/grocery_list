@@ -22,7 +22,7 @@ export const groceryListMock = [
         price: 18.0,
         amount: 1,
         mark: "Hedenshozen",
-        status: "pending",
+        status: "completed",
       },
       {
         id: 3,

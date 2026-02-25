@@ -1,13 +1,11 @@
 import { useCurrency } from "@/src/hooks/use-convert-currency";
-import useSumItems from "@/src/hooks/use-sum-items";
+import { useSumConludedItems, useSumItems } from "@/src/hooks/use-sum-items";
 import useSumValues from "@/src/hooks/use-sum-values";
 import { useToUperCase } from "@/src/hooks/use-to-uper-case";
 import { groceryListRepository } from "@/src/repositories/grocery-list";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { router, useLocalSearchParams } from "expo-router";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
-
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import { FilterButtonGroup } from "@/src/components/filter-button-group";
 import { ListItens } from "@/src/components/list-itens";
@@ -25,6 +23,7 @@ export default function ListScreen() {
   const { toUperCase } = useToUperCase();
   const { sumValues } = useSumValues();
   const { sumItems } = useSumItems();
+  const { sumConcludedItems } = useSumConludedItems();
 
   // <View style={style.center}>
   //         <Text style={style.headerFont}>Nome:</Text>
@@ -86,7 +85,7 @@ export default function ListScreen() {
                   <Text style={styles.panelTitle}>Número de itens</Text>
                 </View>
                 <View>
-                  <Text style={styles.panelValue}>{lista?.itens}</Text>
+                  <Text style={styles.panelValue}>{sumItems(itensList)}</Text>
                 </View>
               </View>
               <View style={styles.panelItemBar}>
@@ -94,7 +93,9 @@ export default function ListScreen() {
                   <Text style={styles.panelTitle}>Concuídos</Text>
                 </View>
                 <View>
-                  <Text style={styles.panelValue}>{1}</Text>
+                  <Text style={styles.panelValue}>
+                    {sumConcludedItems(itensList)}
+                  </Text>
                 </View>
               </View>
               <View style={styles.panelItemBar}>
@@ -111,7 +112,11 @@ export default function ListScreen() {
           </Container>
           {/* fim da header */}
 
-          <FilterButtonGroup />
+          <FilterButtonGroup
+            itensAmount={sumItems(itensList)}
+            pendingAmount={sumItems(itensList) - sumConcludedItems(itensList)}
+            completedAmount={sumConcludedItems(itensList)}
+          />
         </View>
       }
       renderItem={({ item }) => (
