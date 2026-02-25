@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
   qtyText: {
     fontSize: 14,
-    color: "#5e35b1", // Roxo combinando com os botões
+    color: "#5e35b1",
     fontWeight: "700",
   },
 
@@ -51,9 +51,9 @@ const styles = StyleSheet.create({
   priceText: {
     fontSize: 15,
     fontWeight: "bold",
-    color: "#5e35b1", // Roxo para dar destaque financeiro
+    color: "#5e35b1",
   },
-  // Ícone lateral (as três linhas "=" que aparecem na sua imagem)
+
   dragIcon: {
     marginLeft: 10,
     color: "#ccc",

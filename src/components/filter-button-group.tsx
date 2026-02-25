@@ -6,11 +6,12 @@ import { Container } from "./ui/container";
 
 const styleFilter = StyleSheet.create({
   filterButton: {
+    width: "auto",
     gap: 6,
   },
 
   scrollContainer: {
-    paddingHorizontal: 30,
+    paddingRight: 20,
     alignItems: "center",
     gap: 8,
   },
@@ -31,13 +32,7 @@ export function FilterButtonGroup() {
             { width: "auto" },
           ]}
         >
-          <Text
-            style={styles.buttonText}
-            numberOfLines={1}
-            ellipsizeMode="tail"
-          >
-            Todos (52)
-          </Text>
+          <Text style={styles.buttonText}>Todos (52)</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
@@ -46,13 +41,7 @@ export function FilterButtonGroup() {
             { width: "auto" },
           ]}
         >
-          <Text
-            style={styles.buttonText}
-            numberOfLines={1}
-            ellipsizeMode="tail"
-          >
-            Pendentes (37)
-          </Text>
+          <Text style={styles.buttonText}>Pendentes (37)</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
@@ -61,13 +50,7 @@ export function FilterButtonGroup() {
             { width: "auto" },
           ]}
         >
-          <Text
-            style={styles.buttonText}
-            numberOfLines={1}
-            ellipsizeMode="tail"
-          >
-            Concluídos (15)
-          </Text>
+          <Text style={styles.buttonText}>Concluídos (15)</Text>
         </TouchableOpacity>
       </ScrollView>
     </Container>
