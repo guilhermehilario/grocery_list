@@ -13,6 +13,9 @@ import {
   View,
 } from "react-native";
 
+import { useCurrency } from "@/src/hooks/use-convert-currency";
+import { useToUperCase } from "@/src/hooks/use-to-uper-case";
+
 const stylesEdit = StyleSheet.create({
   container: {
     flex: 1,
@@ -31,6 +34,9 @@ const filterItens = (arry: any, id: number) => {
 };
 
 export default function ItensScreen(itensList) {
+  const { toUperCase } = useToUperCase();
+  const { convertCurrency } = useCurrency();
+
   const { "list-id": listId, "item-id": itemId } = useLocalSearchParams<{
     "list-id": string;
     "item-id": string;
@@ -38,13 +44,23 @@ export default function ItensScreen(itensList) {
   const listItem = groceryListRepository.getItensById(Number(listId));
   const itemFilter = filterItens(listItem, Number(itemId));
 
-  const [title, onChangeTitle] = useState("");
-  const [category, onChangeCategory] = useState("");
-  const [price, onChangePrice] = useState("");
-  const [amount, onChangeAmount] = useState("");
-  const [mark, onChangeMark] = useState("");
+  // selectedItem será undefined quando estivermos adicionando um novo item
+  const selectedItem =
+    itemFilter && itemFilter.length > 0 ? itemFilter[0] : undefined;
 
-  const [isCheck, setCheck] = useState(false);
+  const [title, onChangeTitle] = useState(selectedItem?.title ?? "");
+  const [category, onChangeCategory] = useState(selectedItem?.category ?? "");
+  const [price, onChangePrice] = useState(
+    selectedItem?.price !== undefined ? String(selectedItem.price) : "",
+  );
+  const [amount, onChangeAmount] = useState(
+    selectedItem?.amount !== undefined ? String(selectedItem.amount) : "",
+  );
+  const [mark, onChangeMark] = useState(selectedItem?.mark ?? "");
+
+  const [isCheck, setCheck] = useState(
+    selectedItem?.status === "completed" ? true : false,
+  );
 
   const toggleCheck = () => {
     setCheck(!isCheck);
@@ -94,7 +110,7 @@ export default function ItensScreen(itensList) {
               <Text style={styles.label}>Nome</Text>
               <TextInput
                 style={styles.textInput}
-                value={title}
+                value={toUperCase(title)}
                 onChangeText={onChangeTitle}
                 placeholder="Ex: Sabão"
               />
@@ -104,7 +120,7 @@ export default function ItensScreen(itensList) {
               <Text style={styles.label}>Marca</Text>
               <TextInput
                 style={styles.textInput}
-                value={mark}
+                value={toUperCase(mark)}
                 onChangeText={onChangeMark}
                 placeholder="Ex: Palmoliva"
               />
@@ -114,7 +130,7 @@ export default function ItensScreen(itensList) {
               <Text style={styles.label}>Categoria</Text>
               <TextInput
                 style={styles.textInput}
-                value={category}
+                value={toUperCase(category)}
                 onChangeText={onChangeCategory}
                 placeholder="Ex: Limpeza"
               />
@@ -135,7 +151,7 @@ export default function ItensScreen(itensList) {
               <Text style={styles.label}>Preço</Text>
               <TextInput
                 style={styles.textInput}
-                value={price}
+                value={convertCurrency(price)}
                 keyboardType="numeric"
                 onChangeText={onChangePrice}
                 placeholder="R$ 0,00"
