@@ -55,7 +55,10 @@ export default function ListScreen() {
               <Text style={styles.headerTitleText}>
                 {toUperCase(lista?.title)}
               </Text>
-              <TouchableOpacity style={styles.addListButton}>
+              <TouchableOpacity
+                style={styles.addListButton}
+                onPress={() => router.navigate(`/list-screen/${listId}/item/0`)}
+              >
                 <AntDesign name="plus" size={20} color="white" />
                 <Text style={styles.buttonText}>Adicionar Item</Text>
               </TouchableOpacity>
