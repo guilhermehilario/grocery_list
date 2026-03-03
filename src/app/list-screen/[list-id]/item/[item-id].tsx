@@ -11,11 +11,12 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import CategorySelect from "@/src/components/category-select";
+import QuantityInput from "@/src/components/quantity-input";
 
 import Button from "@/src/components/button";
 import { Input } from "@/src/components/input";
@@ -40,7 +41,7 @@ const stylesEdit = StyleSheet.create({
 });
 
 const filterItens = (arry: any, id: number) => {
-  return arry.filter((item: any) => item.id === id);
+  return arry ? arry.filter((item: any) => item.id === id) : [];
 };
 
 export default function ItensScreen() {
@@ -53,11 +54,11 @@ export default function ItensScreen() {
 
   const selectedItem =
     itemFilter && itemFilter.length > 0 ? itemFilter[0] : undefined;
-  //TODO: criar um state para todos os campos
-  //TODO: usar react hookform
 
   const [title, onChangeTitle] = useState(selectedItem?.title ?? "");
-  const [category, onChangeCategory] = useState(selectedItem?.category ?? "");
+  const [category, onChangeCategory] = useState(
+    selectedItem?.category ?? "",
+  );
   const [price, onChangePrice] = useState(
     selectedItem?.price !== undefined
       ? formatNumberToCurrency(Number(selectedItem.price))
@@ -127,7 +128,6 @@ export default function ItensScreen() {
           >
             <Text style={styles.label}>Status</Text>
             <TouchableOpacity onPress={toggleCheck}>
-              {/* <Text style={styles.textInput}>{checkState}</Text> */}
               {checkState}
             </TouchableOpacity>
           </View>
@@ -139,7 +139,6 @@ export default function ItensScreen() {
         >
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={{ paddingBottom: 20 }}>
-              {/* //TODO: componentzar os inputs */}
               <View style={stylesEdit.body}>
                 <Input
                   label="Nome"
@@ -154,23 +153,17 @@ export default function ItensScreen() {
                   placeholder="Ex: Palmoliva"
                 />
 
-                {/* //TODO: transformar em select  */}
-                <View style={styles.inputGroup}>
-                  <Text style={styles.label}>Categoria</Text>
-                  <TextInput
-                    style={styles.textInput}
-                    value={toUpperCaseFirstLetter(category)}
-                    onChangeText={onChangeCategory}
-                    placeholder="Ex: Limpeza"
-                  />
-                </View>
+                {/* Categoria: select com opções e opção de adicionar */}
+                <CategorySelect
+                  value={category}
+                  onChange={onChangeCategory}
+                  placeholder="Ex: Limpeza"
+                />
 
-                <Input
+                <QuantityInput
                   label="Quantidade"
                   value={amount}
-                  keyboardType="numeric"
-                  onChangeText={onChangeAmount}
-                  placeholder="0"
+                  onChange={onChangeAmount}
                 />
 
                 <Input
@@ -194,3 +187,4 @@ export default function ItensScreen() {
     </ScrollView>
   );
 }
+
