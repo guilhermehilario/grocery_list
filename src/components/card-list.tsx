@@ -4,8 +4,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import { useCurrency } from "../hooks/use-convert-currency";
-import { useToUperCase } from "../hooks/use-to-uper-case";
+import convertCurrency from "../services/convertCurrency";
+import toUpperCaseFirstLetter from "../services/toUpperCaseFirstLetter";
 
 const styles = StyleSheet.create({
   container: {
@@ -88,14 +88,23 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function CardList({ title, price, amount, data }) {
-  const { convertCurrency } = useCurrency();
-  const { toUperCase } = useToUperCase();
-
+export default function CardList({
+  title,
+  price,
+  amount,
+  data,
+  conclued,
+}: {
+  title: string;
+  price: number;
+  amount: number;
+  data: string;
+  conclued: number;
+}) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.itemTitle}>{toUperCase(title)}</Text>
+        <Text style={styles.itemTitle}>{toUpperCaseFirstLetter(title)}</Text>
         <TouchableOpacity>
           <FontAwesome name="trash-o" size={24} color="black" />
         </TouchableOpacity>
@@ -107,7 +116,7 @@ export default function CardList({ title, price, amount, data }) {
         </View>
         <View style={styles.line}>
           <Ionicons name="checkmark-circle" size={32} color="#4cd964" />
-          <Text>{amount} concluídos</Text>
+          <Text>{conclued} concluídos</Text>
         </View>
       </View>
       {/* <View style={styles.separatorBar} /> */}

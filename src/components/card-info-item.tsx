@@ -1,39 +1,42 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "column",
-    justifyContent: "space-between",
-    width: "100%",
-  },
+import { styles } from "@/src/styles";
 
-  infos: {
-    flexDirection: "column",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-
-  name: {
-    flexDirection: "row",
-  },
-
-  botton: {
-    flexDirection: "row",
-  },
-});
-
-export default function CardInfoItem({ name, category, amount, price }) {
+export default function CardInfo({
+  itensList,
+  concluedItem,
+  price,
+}: {
+  itensList: number;
+  concluedItem: number;
+  price: string;
+}) {
   return (
-    <View style={styles.container}>
-      <View style={styles.name}>
-        {/* <TouchableOpacity></TouchableOpacity> */}
+    <View style={styles.panel}>
+      <View style={styles.panelItem}>
         <View>
-          <Text>{name}</Text>
-          <Text>{category}</Text>
+          <Text style={styles.panelTitle}>Número de itens</Text>
+        </View>
+        <View>
+          <Text style={styles.panelValue}>{itensList}</Text>
         </View>
       </View>
-      <View style={styles.infos}></View>
-      <View style={styles.botton}></View>
+      <View style={styles.panelItemBar}>
+        <View>
+          <Text style={styles.panelTitle}>Concuídos</Text>
+        </View>
+        <View>
+          <Text style={styles.panelValue}>{concluedItem}</Text>
+        </View>
+      </View>
+      <View style={styles.panelItemBar}>
+        <View>
+          <Text style={styles.panelTitle}>Valor Total</Text>
+        </View>
+        <View>
+          <Text style={styles.panelValue}>{price}</Text>
+        </View>
+      </View>
     </View>
   );
 }

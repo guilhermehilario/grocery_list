@@ -4,11 +4,27 @@ import { styles } from "@/src/styles";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 
-import { useToUperCase } from "@/src/hooks/use-to-uper-case";
-import { maskCurrencyFromDigits, formatNumberToCurrency } from "@/src/utils/currency";
+import Button from "@/src/components/button";
+import { Input } from "@/src/components/input";
 import { saveItem } from "@/src/services/item-service";
+import toUpperCaseFirstLetter from "@/src/services/toUpperCaseFirstLetter";
+import {
+  formatNumberToCurrency,
+  maskCurrencyFromDigits,
+} from "@/src/utils/currency";
 
 const stylesEdit = StyleSheet.create({
   container: {
@@ -28,8 +44,6 @@ const filterItens = (arry: any, id: number) => {
 };
 
 export default function ItensScreen() {
-  const { toUperCase } = useToUperCase();
-
   const { "list-id": listId, "item-id": itemId } = useLocalSearchParams<{
     "list-id": string;
     "item-id": string;
@@ -37,7 +51,10 @@ export default function ItensScreen() {
   const listItem = groceryListRepository.getItensById(Number(listId));
   const itemFilter = filterItens(listItem, Number(itemId));
 
-  const selectedItem = itemFilter && itemFilter.length > 0 ? itemFilter[0] : undefined;
+  const selectedItem =
+    itemFilter && itemFilter.length > 0 ? itemFilter[0] : undefined;
+  //TODO: criar um state para todos os campos
+  //TODO: usar react hookform
 
   const [title, onChangeTitle] = useState(selectedItem?.title ?? "");
   const [category, onChangeCategory] = useState(selectedItem?.category ?? "");
@@ -74,7 +91,7 @@ export default function ItensScreen() {
     const itemPayload: any = {
       title: title,
       category: category,
-      price: price, // may be masked, service will parse
+      price: price,
       amount: parseInt(String(amount)) || 0,
       mark: mark,
       status: isCheck ? "completed" : "pending",
@@ -87,93 +104,93 @@ export default function ItensScreen() {
   };
 
   return (
-    <Container flexDirection="column" style={stylesEdit.container}>
-      <View
-        style={{
-          width: "100%",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <Text style={styles.headerTitleText}>
-          {itemId === undefined || itemId === "0"
-            ? "Adicione um Item"
-            : "Edite esse Item"}
-        </Text>
+    <ScrollView>
+      <Container flexDirection="column" style={stylesEdit.container}>
         <View
-          style={[
-            styles.inputGroup,
-            { alignItems: "center", justifyContent: "center" },
-          ]}
+          style={{
+            width: "100%",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
         >
-          <Text style={styles.label}>Status</Text>
-          <TouchableOpacity onPress={toggleCheck}>
-            {/* <Text style={styles.textInput}>{checkState}</Text> */}
-            {checkState}
-          </TouchableOpacity>
+          <Text style={styles.headerTitleText}>
+            {itemId === undefined || itemId === "0"
+              ? "Adicione um Item"
+              : "Edite esse Item"}
+          </Text>
+          <View
+            style={[
+              styles.inputGroup,
+              { alignItems: "center", justifyContent: "center" },
+            ]}
+          >
+            <Text style={styles.label}>Status</Text>
+            <TouchableOpacity onPress={toggleCheck}>
+              {/* <Text style={styles.textInput}>{checkState}</Text> */}
+              {checkState}
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
 
-      <View style={{ paddingBottom: 20 }}>
-        <View style={stylesEdit.body}>
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Nome</Text>
-            <TextInput
-              style={styles.textInput}
-              value={toUperCase(title)}
-              onChangeText={onChangeTitle}
-              placeholder="Ex: Sabão"
-            />
-          </View>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{ flex: 1 }}
+        >
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={{ paddingBottom: 20 }}>
+              {/* //TODO: componentzar os inputs */}
+              <View style={stylesEdit.body}>
+                <Input
+                  label="Nome"
+                  value={toUpperCaseFirstLetter(title)}
+                  onChangeText={onChangeTitle}
+                  placeholder="Ex: Sabão"
+                />
+                <Input
+                  label="Marca"
+                  value={toUpperCaseFirstLetter(mark)}
+                  onChangeText={onChangeMark}
+                  placeholder="Ex: Palmoliva"
+                />
 
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Marca</Text>
-            <TextInput
-              style={styles.textInput}
-              value={toUperCase(mark)}
-              onChangeText={onChangeMark}
-              placeholder="Ex: Palmoliva"
-            />
-          </View>
+                {/* //TODO: transformar em select  */}
+                <View style={styles.inputGroup}>
+                  <Text style={styles.label}>Categoria</Text>
+                  <TextInput
+                    style={styles.textInput}
+                    value={toUpperCaseFirstLetter(category)}
+                    onChangeText={onChangeCategory}
+                    placeholder="Ex: Limpeza"
+                  />
+                </View>
 
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Categoria</Text>
-            <TextInput
-              style={styles.textInput}
-              value={toUperCase(category)}
-              onChangeText={onChangeCategory}
-              placeholder="Ex: Limpeza"
-            />
-          </View>
+                <Input
+                  label="Quantidade"
+                  value={amount}
+                  keyboardType="numeric"
+                  onChangeText={onChangeAmount}
+                  placeholder="0"
+                />
 
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Quantidade</Text>
-            <TextInput
-              style={styles.textInput}
-              value={amount}
-              keyboardType="numeric"
-              onChangeText={onChangeAmount}
-              placeholder="0"
-            />
-          </View>
+                <Input
+                  label="Preço"
+                  value={price}
+                  keyboardType="numeric"
+                  onChangeText={handlePriceChange}
+                  placeholder="R$ 0,00"
+                />
 
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Preço</Text>
-            <TextInput
-              style={styles.textInput}
-              value={price}
-              keyboardType="numeric"
-              onChangeText={handlePriceChange}
-              placeholder="R$ 0,00"
-            />
-          </View>
-
-          <TouchableOpacity style={styles.buttonSave} onPress={handleSave}>
-            <Text style={styles.buttonText}>Salvar Item</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </Container>
+                <Button
+                  buttonText="Salvar Item"
+                  onPress={handleSave}
+                  style={styles.buttonSave}
+                />
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      </Container>
+    </ScrollView>
   );
 }

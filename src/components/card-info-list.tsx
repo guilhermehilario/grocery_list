@@ -38,7 +38,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function CardInfoNumber({ iconCard, titleCard, amount }) {
+export default function CardInfoNumber({
+  iconCard,
+  titleCard,
+  amount,
+}: {
+  iconCard: React.ReactNode;
+  titleCard: string;
+  amount: number | string;
+}) {
   return (
     <View style={styles.content}>
       <View style={styles.icon}>{iconCard}</View>

@@ -50,7 +50,7 @@ export default function HomeScreen() {
     <Container style={{ width: "100%" }}>
       <View style={stylesList.header}>
         <View style={styles.headerSession}>
-          <AntDesign name="shopping-cart" size={28} color="#5d3fd3" />
+          <AntDesign name="shopping-cart" size={30} color="#5d3fd3" />
           <Text style={styles.headerTitleText}>Listas de Compra</Text>
         </View>
         <View style={styles.headerActions}>
@@ -79,8 +79,9 @@ export default function HomeScreen() {
               <CardList
                 key={item.id}
                 title={item.title}
-                amount={item.itens}
-                price={item.value}
+                amount={item.content.length}
+                conclued={groceryListRepository.getCountConclued(item.id) || 0}
+                price={groceryListRepository.getSumValueItens(item.id) || 0}
                 data={item.data}
               />
             </TouchableOpacity>
