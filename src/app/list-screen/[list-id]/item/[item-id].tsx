@@ -1,3 +1,5 @@
+import CategorySelect from "@/src/components/category-select";
+import QuantityInput from "@/src/components/quantity-input";
 import { Container } from "@/src/components/ui/container";
 import { groceryListRepository } from "@/src/repositories/grocery-list";
 import { styles } from "@/src/styles";
@@ -15,8 +17,6 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import CategorySelect from "@/src/components/category-select";
-import QuantityInput from "@/src/components/quantity-input";
 
 import Button from "@/src/components/button";
 import { Input } from "@/src/components/input";
@@ -56,9 +56,7 @@ export default function ItensScreen() {
     itemFilter && itemFilter.length > 0 ? itemFilter[0] : undefined;
 
   const [title, onChangeTitle] = useState(selectedItem?.title ?? "");
-  const [category, onChangeCategory] = useState(
-    selectedItem?.category ?? "",
-  );
+  const [category, onChangeCategory] = useState(selectedItem?.category ?? "");
   const [price, onChangePrice] = useState(
     selectedItem?.price !== undefined
       ? formatNumberToCurrency(Number(selectedItem.price))
@@ -105,38 +103,42 @@ export default function ItensScreen() {
   };
 
   return (
-    <ScrollView>
-      <Container flexDirection="column" style={stylesEdit.container}>
-        <View
-          style={{
-            width: "100%",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Text style={styles.headerTitleText}>
-            {itemId === undefined || itemId === "0"
-              ? "Adicione um Item"
-              : "Edite esse Item"}
-          </Text>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "position"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
+      style={{ flex: 1 }}
+    >
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}
+        keyboardShouldPersistTaps="always"
+      >
+        <Container flexDirection="column" style={stylesEdit.container}>
           <View
-            style={[
-              styles.inputGroup,
-              { alignItems: "center", justifyContent: "center" },
-            ]}
+            style={{
+              width: "100%",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
           >
-            <Text style={styles.label}>Status</Text>
-            <TouchableOpacity onPress={toggleCheck}>
-              {checkState}
-            </TouchableOpacity>
+            <Text style={styles.headerTitleText}>
+              {itemId === undefined || itemId === "0"
+                ? "Adicione um Item"
+                : "Edite esse Item"}
+            </Text>
+            <View
+              style={[
+                styles.inputGroup,
+                { alignItems: "center", justifyContent: "center" },
+              ]}
+            >
+              <Text style={styles.label}>Status</Text>
+              <TouchableOpacity onPress={toggleCheck}>
+                {checkState}
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
 
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{ flex: 1 }}
-        >
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={{ paddingBottom: 20 }}>
               <View style={stylesEdit.body}>
@@ -153,19 +155,16 @@ export default function ItensScreen() {
                   placeholder="Ex: Palmoliva"
                 />
 
-                {/* Categoria: select com opções e opção de adicionar */}
                 <CategorySelect
                   value={category}
                   onChange={onChangeCategory}
                   placeholder="Ex: Limpeza"
                 />
-
                 <QuantityInput
                   label="Quantidade"
                   value={amount}
                   onChange={onChangeAmount}
                 />
-
                 <Input
                   label="Preço"
                   value={price}
@@ -173,7 +172,6 @@ export default function ItensScreen() {
                   onChangeText={handlePriceChange}
                   placeholder="R$ 0,00"
                 />
-
                 <Button
                   buttonText="Salvar Item"
                   onPress={handleSave}
@@ -182,9 +180,8 @@ export default function ItensScreen() {
               </View>
             </View>
           </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-      </Container>
-    </ScrollView>
+        </Container>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
-
