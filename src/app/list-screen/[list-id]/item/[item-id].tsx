@@ -13,12 +13,12 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
 
 import Button from "@/src/components/button";
+import CheckInputButton from "@/src/components/check-input-button";
 import { Input } from "@/src/components/input";
 import { saveItem } from "@/src/services/item-service";
 import toUpperCaseFirstLetter from "@/src/services/toUpperCaseFirstLetter";
@@ -71,6 +71,8 @@ export default function ItensScreen() {
     selectedItem?.status === "completed" ? true : false,
   );
 
+  const [isStatus, onChangeStatus] = useState(selectedItem?.status);
+
   const toggleCheck = () => {
     setCheck(!isCheck);
   };
@@ -84,6 +86,11 @@ export default function ItensScreen() {
   const handlePriceChange = (text: string) => {
     const masked = maskCurrencyFromDigits(text);
     onChangePrice(masked);
+  };
+
+  const handleStatusChange = (status: "pending" | "completed") => {
+    onChangeStatus(status);
+    setCheck(status === "completed");
   };
 
   const handleSave = () => {
@@ -131,12 +138,7 @@ export default function ItensScreen() {
                 styles.inputGroup,
                 { alignItems: "center", justifyContent: "center" },
               ]}
-            >
-              <Text style={styles.label}>Status</Text>
-              <TouchableOpacity onPress={toggleCheck}>
-                {checkState}
-              </TouchableOpacity>
-            </View>
+            ></View>
           </View>
 
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -171,6 +173,11 @@ export default function ItensScreen() {
                   keyboardType="numeric"
                   onChangeText={handlePriceChange}
                   placeholder="R$ 0,00"
+                />
+                <CheckInputButton
+                  status={isStatus}
+                  label="Status"
+                  onChangeStatus={handleStatusChange}
                 />
                 <Button
                   buttonText="Salvar Item"
